@@ -21,4 +21,4 @@
 go.work
 
 # Compiled proto files
-./pb/out
+#./pb/out
