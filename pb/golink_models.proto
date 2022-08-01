@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package golink;
+
+import "metadata.proto";
+
+option go_package = "aether/pb";
+
+message GoLink {
+  // Unique identifier.
+  string golink_id = 1;
+
+  CreationMetadata creation_metadata = 2;
+
+  // Represents the URL slug for the go link (e.g. go.fsab.io/my-slug)
+  string slug = 3;
+
+  // The URL this go link redirects to.
+  string destination_url = 4;
+}

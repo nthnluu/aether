@@ -1,0 +1,15 @@
+# proto-file: internal/role_schema.proto
+# proto-message: RoleSchema
+
+domain: "hours"
+roles: [{
+  name: "student",
+  permissions: [
+    {action: "read", entity: "queue"},
+    {action: "addTicket", entity: "queue"},
+    {action: "create", entity: "ticket"},
+    {action: "update", entity: "ticket"},
+    {action: "delete", entity: "ticket"}
+  ]
+}]
+

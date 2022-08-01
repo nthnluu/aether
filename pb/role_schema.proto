@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option go_package = "aether/pb";
+
+// Defines a set of roles by mapping role to permission.
+message RoleSchema {
+  // Defines a top-level namespace for permissions.
+  string domain = 1;
+
+  // Role definitions for the domain.
+  repeated Role roles = 3;
+}
+
+// Represents a group of permissions that can be granted to a user or a group.
+message Role {
+  // Required. The name of the role.
+  string name = 1;
+
+  // The permissions to be granted. A permission represents the ability to do something,
+  // such as read or update an entity.
+  repeated Permission permissions = 2;
+}
+
+// Describes what a user can do in the application.
+// TODO(#1): Add support for conditions
+message Permission {
+  // Represents the subject which you want to apply the permission to. Usually, this is a business (or domain)
+  // entity (e.g. `Ticket`, `Article`, `User). Corresponds to the value passed into the `entity` message field.
+  // Required.
+  string entity = 1;
+
+  // Describes a thing the user can do (such as `read`, `update`, `delete`) to the entity. This corresponds to the
+  // value you pass into the `action` RPC method option. Very often it will be a list of words from CRUD (`create`,
+  // `read`, `update`, and `delete`). Required.
+  string action = 2;
+
+  // Can be used to strict the user's action to matched entity fields. For example, you could allow TAs to update
+  // the `status` field of a `Ticket` while disallowing updating other fields. Fields will be matched based on the
+  // field names defined in the entity's `.proto` file.
+  repeated string fields = 3;
+}

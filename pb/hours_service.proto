@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package hours;
+
+import "hours_models.proto";
+
+option go_package = "aether/pb";
+
+service HoursService {
+  // Look up a queue by id.
+  rpc GetQueue(GetQueueRequest) returns (GetQueueResponse);
+
+  // Create a queue.
+  rpc CreateQueue(CreateQueueRequest) returns (CreateQueueResponse);
+
+  // Update an existing queue.
+  rpc UpdateQueue(UpdateQueueRequest) returns (UpdateQueueResponse);
+
+  // Delete a queue permanently.
+  rpc DeleteQueue(DeleteQueueRequest) returns (DeleteQueueResponse);
+}
+
+message GetQueueRequest {
+  string queue_id = 1;
+}
+
+message GetQueueResponse {
+  Queue queue = 1;
+}
+
+message CreateQueueRequest {
+  string course_id = 1;
+  Queue.QueueOptions queue_options = 2;
+}
+
+message CreateQueueResponse {
+  Queue queue = 1;
+}
+
+message UpdateQueueRequest {
+  string queue_id = 1;
+  Queue.QueueOptions queue_options = 2;
+}
+
+message UpdateQueueResponse {
+  // The QueueOptions before the updates were applied.
+  Queue.QueueOptions old_queue_options = 1;
+}
+
+message DeleteQueueRequest {
+  string queue_id = 1;
+}
+
+message DeleteQueueResponse {
+  // The deleted queue ID.
+  string queue_id = 1;
+}
+

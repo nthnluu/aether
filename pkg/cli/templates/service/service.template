@@ -1,0 +1,41 @@
+package ${service_name}
+
+import (
+	pb "aether/pb/out"
+	"context"
+	"fmt"
+)
+
+type Service interface {
+	// Lookup looks up a go-link using its slug and (if found) returns the destination URL.
+	${methods}
+	Lookup(ctx context.Context, lookupRequest *pb.LookupRequest) (*pb.LookupResponse, error)
+	CreateLink(ctx context.Context, createLinkRequest *pb.CreateLinkRequest) (*pb.CreateLinkResponse, error)
+}
+
+type service struct {
+	goLinks Repository
+}
+
+${for i in methods}
+func (s *service) ${methods[i]} {
+	destinationUrl, err := s.goLinks.LookupBySlug(lookupRequest.GetSlug())
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.LookupResponse{DestinationUrl: destinationUrl}, nil
+}
+${end
+
+func (s *service) CreateLink(ctx context.Context, createLinkRequest *pb.CreateLinkRequest) (*pb.CreateLinkResponse, error) {
+	err := s.goLinks.CreateLink(createLinkRequest.GetSlug(), createLinkRequest.GetDestinationUrl())
+	if err != nil {
+		return nil, err
+	}
+	return &pb.CreateLinkResponse{Url: fmt.Sprintf("go.fsab.io/%s", createLinkRequest.GetSlug())}, nil
+}
+
+func NewService() *service {
+	return &service{goLinks: NewRepository()}
+}
