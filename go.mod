@@ -1,4 +1,4 @@
-module aether
+module github.com/nthnluu/aether
 
 go 1.18
 

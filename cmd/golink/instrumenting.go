@@ -1,9 +1,9 @@
 package golink
 
 import (
-	pb "aether/pb/out"
 	"context"
 	"github.com/go-kit/log"
+	pb "github.com/nthnluu/aether/pb/out"
 	"go.opencensus.io/trace"
 	"time"
 )

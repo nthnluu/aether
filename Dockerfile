@@ -1,33 +1,13 @@
-############################
-# STEP 1 build executable binary
-############################
+# syntax=docker/dockerfile:1
 
-FROM golang:alpine as builder
+FROM golang:1.18-alpine
 
-# Install git.
-# Git is required for fetching the dependencies.
-RUN apk add --no-cache git
+WORKDIR /app
 
-WORKDIR $GOPATH/src/aether
-COPY . .
+COPY . ./
 
-# Fetch dependencies
-RUN go mod tidy
+RUN go build cmd/server/server.go
 
-# Build the binary. for grpc gateway
-RUN go build ./cmd/server
+EXPOSE 8082
 
-RUN pwd
-RUN echo $GOPATH
-
-EXPOSE 9090
-# Run the hello binary.
-ENTRYPOINT ["./cmd/server"]
-
-# final build
-#FROM alpine:3.11.3
-#RUN apk --no-cache add bash curl ca-certificates
-#RUN apk update && apk add mysql-client
-#WORKDIR /root/
-#COPY --from=builder /go/src/github.com/<github-user>/rpc/server .
-#ENTRYPOINT ["bash", "-c", "/root/server -grpc-port=$grpc_port_env -db-host=$db_host -db-user=$db_user -db-password=$db_password -db-schema=$db_schema"]
+CMD [ "./server" ]

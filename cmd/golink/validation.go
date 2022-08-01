@@ -1,8 +1,8 @@
 package golink
 
 import (
-	pb "aether/pb/out"
-	"aether/pkg/errors"
+	pb "github.com/nthnluu/aether/pb/out"
+	"github.com/nthnluu/aether/pkg/errors"
 )
 
 func ValidateLookupRequest(req *pb.LookupRequest) error {

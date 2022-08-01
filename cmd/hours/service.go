@@ -1,8 +1,8 @@
 package hours
 
 import (
-	proto "aether/pb/out"
 	"errors"
+	proto "github.com/nthnluu/aether/pb/out"
 	"strings"
 	"time"
 )

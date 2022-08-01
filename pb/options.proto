@@ -4,9 +4,9 @@ import "google/protobuf/descriptor.proto";
 
 package options;
 
-option go_package = "aether/pb";
+option go_package = "github.com/nthnluu/aether/pb";
 
-// aether-specific custom options. See https://developers.google.com/protocol-buffers/docs/proto#options.
+// github.com/nthnluu/aether-specific custom options. See https://developers.google.com/protocol-buffers/docs/proto#options.
 
 extend google.protobuf.MessageOptions {
   // Defines a message as an entity. See http://go.fsab.io/bouncer-entity

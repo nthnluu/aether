@@ -4,7 +4,7 @@ package hours;
 
 import "hours_models.proto";
 
-option go_package = "aether/pb";
+option go_package = "github.com/nthnluu/aether/pb";
 
 service HoursService {
   // Look up a queue by id.

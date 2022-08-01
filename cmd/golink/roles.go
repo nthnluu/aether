@@ -1,6 +1,6 @@
 package golink
 
-import "aether/pkg/gatekeeper"
+import "github.com/nthnluu/aether/pkg/gatekeeper"
 
 const (
 	LookupLinkPermission = "link.lookup"

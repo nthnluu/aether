@@ -1,9 +1,9 @@
 package golink
 
 import (
-	pb "aether/pb/out"
 	"context"
 	"fmt"
+	pb "github.com/nthnluu/aether/pb/out"
 )
 
 type Service interface {

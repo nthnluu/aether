@@ -1,11 +1,11 @@
 package main
 
 import (
-	"aether/cmd/golink"
-	proto "aether/pb/out"
 	"contrib.go.opencensus.io/exporter/stackdriver"
 	kitgrpc "github.com/go-kit/kit/transport/grpc"
 	"github.com/go-kit/log"
+	"github.com/nthnluu/aether/cmd/golink"
+	proto "github.com/nthnluu/aether/pb/out"
 	"go.opencensus.io/plugin/ocgrpc"
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/trace"
@@ -29,7 +29,7 @@ const (
 
 func main() {
 	var (
-		grpcAddr    = "localhost:8082"
+		grpcAddr    = "0.0.0.0:8082"
 		environment = defaultEnvironment
 	)
 

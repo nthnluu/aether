@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "aether/pb";
+option go_package = "github.com/nthnluu/aether/pb";
 
 // Defines a set of roles by mapping role to permission.
 message RoleSchema {

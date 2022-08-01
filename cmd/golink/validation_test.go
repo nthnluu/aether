@@ -1,7 +1,7 @@
 package golink
 
 import (
-	pb "aether/pb/out"
+	pb "github.com/nthnluu/aether/pb/out"
 	"testing"
 )
 

@@ -4,7 +4,7 @@ package golink;
 
 import "metadata.proto";
 
-option go_package = "aether/pb";
+option go_package = "github.com/nthnluu/aether/pb";
 
 message GoLink {
   // Unique identifier.

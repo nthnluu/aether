@@ -4,7 +4,7 @@ package golink;
 
 import "options.proto";
 
-option go_package = "aether/pb";
+option go_package = "github.com/nthnluu/aether/pb";
 
 service GoLinkService {
   // Look up a go link using its slug.

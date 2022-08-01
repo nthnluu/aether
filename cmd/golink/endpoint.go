@@ -1,9 +1,9 @@
 package golink
 
 import (
-	pb "aether/pb/out"
-	"aether/pkg/grpc"
 	"context"
+	pb "github.com/nthnluu/aether/pb/out"
+	"github.com/nthnluu/aether/pkg/grpc"
 )
 
 const (

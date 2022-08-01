@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "aether/pb";
+option go_package = "github.com/nthnluu/aether/pb";
 
 // Encapsulates metadata regarding the creation of an entity.
 message CreationMetadata {

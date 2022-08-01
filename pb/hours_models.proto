@@ -6,7 +6,7 @@ import "metadata.proto";
 import "options.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "aether/pb";
+option go_package = "github.com/nthnluu/aether/pb";
 
 // Represents a queue.
 message Queue {
