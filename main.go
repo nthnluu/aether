@@ -15,10 +15,14 @@ var (
 )
 
 func main() {
+	// Create the service.
 	goLinkService := golink.CreateService(golink.NewRepository())
+
+	// Create the gRPC server and register your service.
 	grpcServer := server.CreateServer()
 	pb.RegisterGoLinkServiceServer(grpcServer, goLinkService)
 
+	// Run the server.
 	server.RunOrExit(grpcServer, *port, func(b *server.ServerConfig) {
 		b.AddMethodRequestInterceptor("/golink.GoLinkService/CreateLink", func(ctx context.Context, req interface{}) error {
 			_, ok := req.(*pb.CreateLinkRequest)
