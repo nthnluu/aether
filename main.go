@@ -29,7 +29,7 @@ func main() {
 			if !ok {
 				panic("invalid req")
 			}
-			return errors.NotYetImplemented("Implement the create link request interceptor")
+			return errors.NotYetImplementedError("Implement the create link request interceptor")
 		})
 
 		b.AddMethodResponseInterceptor("/golink.GoLinkService/CreateLink", func(ctx context.Context, resp interface{}) error {
@@ -37,7 +37,7 @@ func main() {
 			if !ok {
 				panic("invalid resp")
 			}
-			return errors.NotYetImplemented("Implement the create link request interceptor")
+			return errors.NotYetImplementedError("Implement the create link request interceptor")
 		})
 	})
 }

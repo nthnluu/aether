@@ -10,7 +10,12 @@ func ValidationError(msg string) error {
 	return status.Error(codes.InvalidArgument, msg)
 }
 
-// NotYetImplemented returns an UNIMPLEMNTED error plus a message.
-func NotYetImplemented(msg string) error {
+// NotYetImplementedError returns an UNIMPLEMNTED error plus a message.
+func NotYetImplementedError(msg string) error {
 	return status.Error(codes.Unimplemented, msg)
+}
+
+// UnauthenticatedError returns an UNAUTHENTICATED  error plus a message.
+func UnauthenticatedError() error {
+	return status.Error(codes.Unauthenticated, "Not authenticated")
 }
