@@ -15,7 +15,7 @@ var (
 )
 
 func main() {
-	// Create the service.
+	// Create the service
 	goLinkService := golink.CreateService(golink.NewRepository())
 
 	// Create the gRPC server and register your service.
