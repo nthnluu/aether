@@ -15,7 +15,7 @@ func NotYetImplementedError(msg string) error {
 	return status.Error(codes.Unimplemented, msg)
 }
 
-// UnauthenticatedError returns an UNAUTHENTICATED  error plus a message.
+// UnauthenticatedError returns an UNAUTHENTICATED error.
 func UnauthenticatedError() error {
 	return status.Error(codes.Unauthenticated, "Not authenticated")
 }
