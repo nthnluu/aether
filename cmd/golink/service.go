@@ -3,12 +3,13 @@ package golink
 import (
 	"context"
 	"fmt"
+
 	pb "github.com/nthnluu/aether/pb/out"
-	"github.com/nthnluu/aether/pkg/server"
 )
 
 type service struct {
 	goLinks Repository
+	*pb.UnimplementedGoLinkServiceServer
 }
 
 func (s *service) Lookup(ctx context.Context, lookupRequest *pb.LookupRequest) (*pb.LookupResponse, error) {
@@ -27,10 +28,8 @@ func (s *service) CreateLink(ctx context.Context, createLinkRequest *pb.CreateLi
 	return &pb.CreateLinkResponse{Url: fmt.Sprintf("go.fsab.io/%s", createLinkRequest.GetSlug())}, nil
 }
 
-func CreateService(goLinksRepository Repository) *server.GRPCService {
-	s := &service{
+func CreateService(goLinksRepository Repository) *service {
+	return &service{
 		goLinks: goLinksRepository,
 	}
-	grpcService := server.NewGRPCService(&pb.GoLinkService_ServiceDesc, s)
-	return grpcService
 }
