@@ -41,8 +41,10 @@ func init() {
 	globalInterceptors.init()
 }
 
-func RunOrExit(grpcServer *grpc.Server, port int, configure func(*ServerConfigurationBuilder)) {
-	serverConfig := &ServerConfigurationBuilder{}
+// RunOrExit runs the provided gRPC server on the specified port. `configure` is a
+// function that can be used to set up resources and configure the server before running.
+func RunOrExit(grpcServer *grpc.Server, port int, configure func(*ServerConfig)) {
+	serverConfig := &ServerConfig{}
 	configure(serverConfig)
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
@@ -101,7 +103,7 @@ func CreateServer() *grpc.Server {
 	return grpc.NewServer(grpc.UnaryInterceptor(internalInterceptor))
 }
 
-type ServerConfigurationBuilder struct {
+type ServerConfig struct {
 }
 
 type RequestInterceptor = func()
@@ -109,7 +111,7 @@ type RequestInterceptor = func()
 // AddMethodRequestInterceptor adds a function that will be called with an incoming request before the specified
 // method is called. Interceptors are called in FIFO order: interceptors added first will be called first.
 // The `methodName` is the full RPC method string, i.e., /package.service/method.
-func (*ServerConfigurationBuilder) AddMethodRequestInterceptor(methodName string, interceptor Interceptor) {
+func (*ServerConfig) AddMethodRequestInterceptor(methodName string, interceptor Interceptor) {
 	config, ok := methodInterceptorTable[methodName]
 	if ok {
 		config.req = append(config.req, interceptor)
@@ -124,7 +126,7 @@ func (*ServerConfigurationBuilder) AddMethodRequestInterceptor(methodName string
 
 // AddMethodResponseInterceptor adds a function that will be called with an outgoing response from a specified method
 // before it's sent to the caller. Interceptors are called in FIFO order: interceptors added first will be called first.
-func (*ServerConfigurationBuilder) AddMethodResponseInterceptor(methodName string, interceptor Interceptor) {
+func (*ServerConfig) AddMethodResponseInterceptor(methodName string, interceptor Interceptor) {
 	config, ok := methodInterceptorTable[methodName]
 	if ok {
 		config.resp = append(config.resp, interceptor)
@@ -139,18 +141,12 @@ func (*ServerConfigurationBuilder) AddMethodResponseInterceptor(methodName strin
 
 // AddRequestInterceptor adds a function that will be called with an incoming request before the handler is called.
 // Interceptors are called in FIFO order: interceptors added first will be called first.
-func (*ServerConfigurationBuilder) AddRequestInterceptor(interceptor Interceptor) {
+func (*ServerConfig) AddRequestInterceptor(interceptor Interceptor) {
 	globalInterceptors.req = append(globalInterceptors.req, interceptor)
 }
 
 // AddResponseInterceptor adds a function that will be called with an outgoing response before it's sent to the caller.
 // Interceptors are called in FIFO order: interceptors added first will be called first.
-func (*ServerConfigurationBuilder) AddResponseInterceptor(interceptor Interceptor) {
+func (*ServerConfig) AddResponseInterceptor(interceptor Interceptor) {
 	globalInterceptors.resp = append(globalInterceptors.resp, interceptor)
-}
-
-// AddRequestValidator adds a function that will be called with an outgoing response before it's sent to the caller.
-// Interceptors are called in FIFO order: interceptors added first will be called first.
-func (*ServerConfigurationBuilder) AddRequestValidator() {
-
 }
