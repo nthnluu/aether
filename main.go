@@ -19,7 +19,7 @@ func main() {
 	grpcServer := server.CreateServer()
 	pb.RegisterGoLinkServiceServer(grpcServer, goLinkService)
 
-	server.RunOrExit(grpcServer, *port, func(b *server.ServerConfigurationBuilder) {
+	server.RunOrExit(grpcServer, *port, func(b *server.ServerConfig) {
 		b.AddMethodRequestInterceptor("/golink.GoLinkService/CreateLink", func(ctx context.Context, req interface{}) error {
 			_, ok := req.(*pb.CreateLinkRequest)
 			if !ok {
