@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 
 	"github.com/nthnluu/aether/cmd/golink"
 	pb "github.com/nthnluu/aether/pb/out"
+	"github.com/nthnluu/aether/pkg/errors"
 	"github.com/nthnluu/aether/pkg/server"
 )
 
@@ -20,20 +20,20 @@ func main() {
 	pb.RegisterGoLinkServiceServer(grpcServer, goLinkService)
 
 	server.RunOrExit(grpcServer, *port, func(b *server.ServerConfigurationBuilder) {
-		b.AddMethodRequestInterceptor("/golink.GoLinkService/CreateLink", func(ctx context.Context, req interface{}) {
-			request, ok := req.(*pb.CreateLinkRequest)
+		b.AddMethodRequestInterceptor("/golink.GoLinkService/CreateLink", func(ctx context.Context, req interface{}) error {
+			_, ok := req.(*pb.CreateLinkRequest)
 			if !ok {
-				panic("ahahhahaha")
+				panic("invalid req")
 			}
-			fmt.Printf(request.DestinationUrl)
+			return errors.NotYetImplemented("Implement the create link request interceptor")
 		})
 
-		b.AddMethodResponseInterceptor("/golink.GoLinkService/CreateLink", func(ctx context.Context, resp interface{}) {
-			response, ok := resp.(*pb.CreateLinkResponse)
+		b.AddMethodResponseInterceptor("/golink.GoLinkService/CreateLink", func(ctx context.Context, resp interface{}) error {
+			_, ok := resp.(*pb.CreateLinkResponse)
 			if !ok {
-				panic("ahahhahaha")
+				panic("invalid resp")
 			}
-			response.Url = response.GetUrl() + "HI NAGTHAN"
+			return errors.NotYetImplemented("Implement the create link request interceptor")
 		})
 	})
 }

@@ -15,7 +15,7 @@ type Service interface {
 }
 
 // Interceptor is a function that is run before a request or after a response.
-type Interceptor = func(context.Context, interface{})
+type Interceptor = func(context.Context, interface{}) error
 
 // interceptorConfig represents the registered request and response interceptors
 // for a specific method.
@@ -60,7 +60,9 @@ func internalInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryS
 
 	// Run globally registered req interceptors.
 	for _, interceptor := range globalInterceptors.req {
-		interceptor(ctx, req)
+		if err := interceptor(ctx, req); err != nil {
+			return nil, err
+		}
 	}
 
 	// Run req interceptors registered for the specific method.
@@ -68,7 +70,9 @@ func internalInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryS
 	if ok {
 		// Run all registered interceptors for the current method.
 		for _, interceptor := range methodInterceptors.req {
-			interceptor(ctx, req)
+			if err := interceptor(ctx, req); err != nil {
+				return nil, err
+			}
 		}
 	}
 
@@ -76,14 +80,18 @@ func internalInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryS
 
 	// Run globally registered resp interceptors.
 	for _, interceptor := range globalInterceptors.resp {
-		interceptor(ctx, resp)
+		if err := interceptor(ctx, resp); err != nil {
+			return nil, err
+		}
 	}
 
 	// Run interceptors registered for the specific method.
 	if ok {
 		// Run all registered interceptors for the current method.
 		for _, interceptor := range methodInterceptors.resp {
-			interceptor(ctx, resp)
+			if err := interceptor(ctx, resp); err != nil {
+				return nil, err
+			}
 		}
 	}
 	return resp, err
