@@ -9,3 +9,8 @@ import (
 func ValidationError(msg string) error {
 	return status.Error(codes.InvalidArgument, msg)
 }
+
+// NotYetImplemented returns an UNIMPLEMNTED error plus a message.
+func NotYetImplemented(msg string) error {
+	return status.Error(codes.Unimplemented, msg)
+}
