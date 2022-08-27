@@ -1,6 +1,8 @@
 # Aether
 Aether is a microservice framework that lets you build robust, production-quality services with fast build times and minimal-configuration production infrastructure.
 
+> Prefer to learn by example? **Check out the [HoroscopeService](https://github.com/nthnluu/aether/tree/main/examples/horoscope) example!**
+
 ## Concepts
 
 ### Services
@@ -14,7 +16,7 @@ An interceptor is a piece of code that extends the behavior of Aether RPC client
 
 ### Module
 A module is a self-contained, reusable piece of functionality that can be used by an Aether server. Modules are the fundamental building blocks of an Aether server: they are the API by which users configure and extend Aether servers: they can add interceptors and register services.
-  
+
 ## Protobufs
 Protobuf is an interface definition language (IDL) that allows us to define data types and services in a language neutral format. They are great because they provide a self-documented description of the service and its datatypes, plus shared types between languages, 
 
@@ -54,4 +56,4 @@ Always keep your data logic (i.e. code that queries a database or makes an API c
 
 To do this, you should define a `Repository` interface inside `respository.go`. On this interface, you can define an abstract API for accessing the data so that your business logic is agnostic to the underlying data source(s).
 
-See [examples/horoscope/service/interface.go]().
+See [examples/horoscope/service/repository.go](https://github.com/nthnluu/aether/blob/main/examples/horoscope/service/repository.go).
