@@ -3,7 +3,6 @@ syntax = "proto3";
 package horoscope;
 
 import "horoscope_models.proto";
-import "google/protobuf/descriptor.proto";
 
 option go_package = "github.com/nthnluu/aether/examples/horoscope/pb";
 
@@ -28,7 +27,7 @@ message GetDailyHoroscopeResponse {
 
 message GetHoroscopeRequest {
   ZodiacSign zodiac_sign = 1;
-  google.protobuf.Timestamp date = 2;
+  uint32 date = 2;
 }
 
 message GetHoroscopeResponse {

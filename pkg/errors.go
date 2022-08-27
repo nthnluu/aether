@@ -1,4 +1,4 @@
-package errors
+package aether
 
 import (
 	"google.golang.org/grpc/codes"

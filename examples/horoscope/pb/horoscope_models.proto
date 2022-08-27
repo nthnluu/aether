@@ -1,20 +1,27 @@
+syntax = "proto3";
+
+package horoscope;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/nthnluu/aether/examples/horoscope/pb";
 
 enum ZodiacSign {
-        ZODIAC_SIGN_UNSPECIFIED = 0;
-        ZODIAC_SIGN_ARIES = 1;
-        ZODIAC_SIGN_TAURUS = 2;
-        ZODIAC_SIGN_GEMINI = 3;
-        ZODIAC_SIGN_CANCER = 4;
-        ZODIAC_SIGN_LEO = 5;
-        ZODIAC_SIGN_VIRGO = 6;
-        ZODIAC_SIGN_LIBRA = 7;
-        ZODIAC_SIGN_SCORPIO = 8;
-        ZODIAC_SIGN_SAGITTARIUS = 9;
-        ZODIAC_SIGN_CAPRICORN = 10;
-        ZODIAC_SIGN_AQUARIUS = 11;
-        ZODIAC_SIGN_PISCES = 12;
-    }
+  ZODIAC_SIGN_UNSPECIFIED = 0;
+  ZODIAC_SIGN_ARIES = 1;
+  ZODIAC_SIGN_TAURUS = 2;
+  ZODIAC_SIGN_GEMINI = 3;
+  ZODIAC_SIGN_CANCER = 4;
+  ZODIAC_SIGN_LEO = 5;
+  ZODIAC_SIGN_VIRGO = 6;
+  ZODIAC_SIGN_LIBRA = 7;
+  ZODIAC_SIGN_SCORPIO = 8;
+  ZODIAC_SIGN_SAGITTARIUS = 9;
+  ZODIAC_SIGN_CAPRICORN = 10;
+  ZODIAC_SIGN_AQUARIUS = 11;
+  ZODIAC_SIGN_PISCES = 12;
+}
 
-    message Fortune {
-        string fortune = 1;
-    }
+message Fortune {
+  string fortune = 1;
+}

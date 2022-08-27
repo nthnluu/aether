@@ -1,4 +1,4 @@
-package server
+package aether
 
 import (
 	"context"
@@ -13,13 +13,6 @@ type Service interface {
 	Service() interface{}
 	ServiceDesc() *grpc.ServiceDesc
 }
-
-// FullMethodName is the key of the full method name in the context passed into interceptor functions.
-// This allows interceptor functions to access the full method name from `ctx`.
-const FullMethodName = "fullMethodName"
-
-// Interceptor is a function that is run before a request or after a response.
-type Interceptor = func(context.Context, interface{}) error
 
 // interceptorConfig represents the registered request and response interceptors
 // for a specific method.
@@ -37,7 +30,6 @@ func (i *interceptorConfig) init() {
 // their registered interceptors.
 var methodInterceptorTable map[string]interceptorConfig
 
-// globalInterceptors contains interceptors that will be run on every RPC call.
 var globalInterceptors interceptorConfig
 
 func init() {
@@ -71,49 +63,6 @@ func GetFullMethodNameFromContext(ctx context.Context) string {
 	return methodName
 }
 
-// internalInterceptor runs the registered interceptors for requests then responses
-func internalInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
-	fmt.Println(info.FullMethod)
-
-	// Run globally registered req interceptors.
-	for _, interceptor := range globalInterceptors.req {
-		if err := interceptor(context.WithValue(ctx, FullMethodName, info.FullMethod), req); err != nil {
-			return nil, err
-		}
-	}
-
-	// Run req interceptors registered for the specific method.
-	methodInterceptors, ok := methodInterceptorTable[info.FullMethod]
-	if ok {
-		// Run all registered interceptors for the current method.
-		for _, interceptor := range methodInterceptors.req {
-			if err := interceptor(context.WithValue(ctx, FullMethodName, info.FullMethod), req); err != nil {
-				return nil, err
-			}
-		}
-	}
-
-	resp, err := handler(ctx, req)
-
-	// Run globally registered resp interceptors.
-	for _, interceptor := range globalInterceptors.resp {
-		if err := interceptor(context.WithValue(ctx, FullMethodName, info.FullMethod), resp); err != nil {
-			return nil, err
-		}
-	}
-
-	// Run interceptors registered for the specific method.
-	if ok {
-		// Run all registered interceptors for the current method.
-		for _, interceptor := range methodInterceptors.resp {
-			if err := interceptor(context.WithValue(ctx, FullMethodName, info.FullMethod), resp); err != nil {
-				return nil, err
-			}
-		}
-	}
-	return resp, err
-}
-
 func CreateServer() *grpc.Server {
 	return grpc.NewServer(grpc.UnaryInterceptor(internalInterceptor))
 }
@@ -121,7 +70,10 @@ func CreateServer() *grpc.Server {
 type ServerConfig struct {
 }
 
-type RequestInterceptor = func()
+// InstallModule installs an Aether Module on the current server.
+func (*ServerConfig) InstallModule(module Module) {
+
+}
 
 // AddMethodRequestInterceptor adds a function that will be called with an incoming request before the specified
 // method is called. Interceptors are called in FIFO order: interceptors added first will be called first.
