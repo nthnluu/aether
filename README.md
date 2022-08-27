@@ -30,6 +30,12 @@ If `./compile.sh` returns a permission error, you can grant execute permissions 
 chmod +x compile.sh # then rerun `./compile.sh`
 ```
 
+## Getting started
+To install Aether in a new Go project, run:
+```bash=
+go get github.com/nthnluu/aether
+```
+
 ## Creating a service
 
 Create a service by writing a `<your service name>_service.proto` file and calling `aether create service pb/<your service name>_service.proto`
