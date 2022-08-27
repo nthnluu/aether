@@ -15,6 +15,8 @@ var (
 )
 
 func main() {
+	flag.Parse()
+	
 	// Create the service
 	goLinkService := golink.CreateService(golink.NewRepository())
 
