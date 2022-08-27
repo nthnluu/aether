@@ -1,7 +1,6 @@
 package aether
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net"
@@ -50,17 +49,6 @@ func RunOrExit(grpcServer *grpc.Server, port int, configure func(*ServerConfig))
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatal(err)
 	}
-}
-
-// GetFullMethodNameFromContext gets the full method name from the context passed into an interceptor function.
-func GetFullMethodNameFromContext(ctx context.Context) string {
-	val := ctx.Value(FullMethodName)
-	methodName, ok := val.(string)
-	if !ok {
-		log.Fatal("Failed to read method name from context. " +
-			"This usually means you are calling this function on a context from outside an interceptor function.")
-	}
-	return methodName
 }
 
 func CreateServer() *grpc.Server {
