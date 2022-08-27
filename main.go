@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"log"
 
 	"github.com/nthnluu/aether/cmd/golink"
 	pb "github.com/nthnluu/aether/pb/out"
@@ -16,7 +17,7 @@ var (
 
 func main() {
 	flag.Parse()
-	
+
 	// Create the service
 	goLinkService := golink.CreateService(golink.NewRepository())
 
@@ -29,7 +30,7 @@ func main() {
 		b.AddMethodRequestInterceptor("/golink.GoLinkService/CreateLink", func(ctx context.Context, req interface{}) error {
 			_, ok := req.(*pb.CreateLinkRequest)
 			if !ok {
-				panic("invalid req")
+				log.Fatalf("invalid req")
 			}
 			return errors.NotYetImplementedError("Implement the create link request interceptor")
 		})
@@ -37,7 +38,7 @@ func main() {
 		b.AddMethodResponseInterceptor("/golink.GoLinkService/CreateLink", func(ctx context.Context, resp interface{}) error {
 			_, ok := resp.(*pb.CreateLinkResponse)
 			if !ok {
-				panic("invalid resp")
+				log.Fatalf("invalid resp")
 			}
 			return errors.NotYetImplementedError("Implement the create link request interceptor")
 		})
