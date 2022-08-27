@@ -1,27 +1,24 @@
 # Aether
 Aether is a microservice framework that lets you build robust, production-quality services with fast build times and minimal-configuration production infrastructure.
 
-Aether provides libraries, automation, and tooling for production details/
-
 ## Concepts
+
 ### Services
-A service is a collection of one or more callable endpoints. A service describes an interface (in terms of RPCs) that a server provides.
+A service is a set of one or more callable endpoints. A service describes the interface (in terms of RPCs) that a server provides.
 
-### Aether nodes
-Aether nodes are the fundamental building block of an Aether server. An Aether node is a package of code and configuration that can be combined with other nodes to form an Aether server.
+### Server
+A server is a set of one or more services can be run to serve RPC requests.
 
-An Aether server is a binary that runs on Kubernetes and includes several types of nodes.
+### Interceptor
+An interceptor is a piece of code that extends the behavior of Aether RPC clients and servers. Interceptors are hooks that run before and after your actions and can be used to implement authentication, logging, instrumentation, etc.
 
-### Node types
-The node type depends on the purpose of the node:
-- **Executable nodes** represent callable services, and often contain most of the code and business logic for an application. They can listen for incoming requests.
-- **Shared nodes** represent libraries or backends. They are a mechanism for centralizing reuseable bits of logic or functionality. Shared nodes can depend on other shared nodes if needed.
-- **Server nodes** represent Aether servers. A server is an executeable that bundles one or more executable nodes along with the union of their dependencies into a single deployable entity.
+### Module
+A module is a self-contained, reusable piece of functionality that can be used by an Aether server. Modules are the fundamental building blocks of an Aether server: they are the API by which users configure and extend Aether servers: they can add interceptors and register services.
   
 ## Protobufs
-Protobuf is an interface definition language (IDL) that allows us to define data types and services in a language neutral format.
+Protobuf is an interface definition language (IDL) that allows us to define data types and services in a language neutral format. They are great because they provide a self-documented description of the service and its datatypes, plus shared types between languages, 
 
-To add a new `.proto` file, add it to the `proto/` directory. Then, compile the Go proto library:
+To add a new `.proto` file, add it to the `pb/` directory. Then, compile the Go proto library:
 ```shell
 cd pb
 ./compile.sh
@@ -33,11 +30,28 @@ chmod +x compile.sh # then rerun `./compile.sh`
 
 ## Creating a service
 
-TLDR: Create a service by writing a `<your service name>_service.proto` file and calling `Aether create service pb/<your service name>_service.proto
+Create a service by writing a `<your service name>_service.proto` file and calling `aether create service pb/<your service name>_service.proto`
 
-A service is simply a group of endpoints.
+## Modules
+A module is a self-contained, reuseable piece of functionality that servers built with Aether can use. It is the fundamental building block of an Aether server, and is the foundation in which users can:
+- Set up a connection to another gRPC endpoint
+- Register a gRPC service
+- Add interceptors
 
-At a high level, to create a new service, you have to:
-1. Create `<your service name>_models.proto` and `<your service name>_service.proto` to define your service's data types and RPC interface (including request/response types for each endpoint).
-2. Create a folder in the `cmd` directory named after your service (all lowercase, one word, and singular).
-3. 
+This enables you to build features that are easy to share and reuse, such as:
+- Database handles
+- A high-level API for accessing a database
+- Authentication
+- Logging and metrics
+- Glueing together multiple modules
+
+To create a module, you must simply implement the `Module` interface, and register it by calling `b.RegisterModule(module)` in the server's `configure()` function.
+
+## Best Practices
+
+### Seperate datasource and business logic
+Always keep your data logic (i.e. code that queries a database or makes an API call) seperate from your business logic. By decoupling these two things, your business logic code easier to read, and you make it easier to swap out databases for testing.
+
+To do this, you should define a `Repository` interface inside `respository.go`. On this interface, you can define an abstract API for accessing the data so that your business logic is agnostic to the underlying data source(s).
+
+See [examples/horoscope/service/interface.go]().
