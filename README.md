@@ -1,7 +1,7 @@
 # Aether
 Aether is a microservice framework that lets you build robust, production-quality services with fast build times and minimal-configuration production infrastructure.
 
-> Prefer to learn by example? **Check out the [HoroscopeService](https://github.com/nthnluu/aether/tree/main/examples/horoscope) example!**
+> Prefer to learn by doing? **Check out the [HoroscopeService](https://github.com/nthnluu/aether/tree/main/examples/horoscope) codelab!**
 
 ## Concepts
 
