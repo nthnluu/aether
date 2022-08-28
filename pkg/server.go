@@ -64,8 +64,12 @@ type ServerConfig struct {
 }
 
 // InstallModule installs an Aether Module on the current server.
-func (*ServerConfig) InstallModule(module Module) {
-
+func (s *ServerConfig) InstallModule(module Module) {
+	fmt.Printf("Installing module %v\n", module.Name())
+	err := module.Configure(s)
+	if err != nil {
+		log.Fatalf("failed to install module: %v\n", err)
+	}
 }
 
 // GetGRPCServer gets a reference to the current gRPC server. Useful for registering services.

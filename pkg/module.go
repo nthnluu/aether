@@ -6,4 +6,5 @@ type Module interface {
 	// Configure is a function that will be called as Aether sets up the server. Configure is passed
 	// a pointer to a ServerConfig, which can be used to add interceptors, register gRPC services, and more.
 	Configure(c *ServerConfig) error
+	Name() string
 }

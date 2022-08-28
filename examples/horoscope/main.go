@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	pb "github.com/nthnluu/aether/examples/horoscope/pb/out"
 	horoscope "github.com/nthnluu/aether/examples/horoscope/service"
 	aether "github.com/nthnluu/aether/pkg"
 )
@@ -12,8 +11,7 @@ var (
 )
 
 func configure(c *aether.ServerConfig) error {
-	horoscopeService := horoscope.CreateService(horoscope.NewRepository())
-	pb.RegisterHoroscopeServiceServer(c.GetGRPCServer(), horoscopeService)
+	c.InstallModule(horoscope.Module(horoscope.NewRepository()))
 	return nil
 }
 

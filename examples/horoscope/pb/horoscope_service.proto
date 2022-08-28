@@ -7,10 +7,10 @@ import "horoscope_models.proto";
 option go_package = "github.com/nthnluu/aether/examples/horoscope/pb";
 
 service HoroscopeService {
-  // Get's the daily horoscope for the given zodiac sign.
+  // Gets the daily horoscope for the given zodiac sign.
   rpc GetDailyHoroscope(GetDailyHoroscopeRequest) returns (GetDailyHoroscopeResponse);
 
-  // Get's the horoscope for the given zodiac sign and date.
+  // Gets the horoscope for the given zodiac sign and date.
   rpc GetHoroscope(GetHoroscopeRequest) returns (GetHoroscopeResponse);
 
   // Suggest a fortune.
