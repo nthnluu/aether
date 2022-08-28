@@ -20,6 +20,11 @@ type interceptorConfig struct {
 	resp []Interceptor
 }
 
+// ConfigureFunc is a function that is used to set up an Aether server.
+// It is passed a pointer to a ServerConfig, which can be used to add interceptors,
+// register services, and more.
+type ConfigureFunc func(c *ServerConfig) error
+
 func (i *interceptorConfig) init() {
 	i.req = make([]Interceptor, 0)
 	i.resp = make([]Interceptor, 0)
@@ -38,29 +43,34 @@ func init() {
 
 // RunOrExit runs the provided gRPC server on the specified port. `configure` is a
 // function that can be used to set up resources and configure the server before running.
-func RunOrExit(grpcServer *grpc.Server, port int, configure func(*ServerConfig)) {
-	serverConfig := &ServerConfig{}
-	configure(serverConfig)
+func RunOrExit(configure func(c *ServerConfig) error, port int) {
+	serverConfig := &ServerConfig{grpcServer: grpc.NewServer(grpc.UnaryInterceptor(internalInterceptor))}
+	err := configure(serverConfig)
+	if err != nil {
+		log.Fatal(err)
+	}
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Printf("Server is running on port %v\n", port)
-	if err := grpcServer.Serve(lis); err != nil {
+	if err := serverConfig.grpcServer.Serve(lis); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func CreateServer() *grpc.Server {
-	return grpc.NewServer(grpc.UnaryInterceptor(internalInterceptor))
-}
-
 type ServerConfig struct {
+	grpcServer *grpc.Server
 }
 
 // InstallModule installs an Aether Module on the current server.
 func (*ServerConfig) InstallModule(module Module) {
 
+}
+
+// GetGRPCServer gets a reference to the current gRPC server. Useful for registering services.
+func (s *ServerConfig) GetGRPCServer() *grpc.Server {
+	return s.grpcServer
 }
 
 // AddMethodRequestInterceptor adds a function that will be called with an incoming request before the specified

@@ -1,4 +1,4 @@
-package horoscope
+package main
 
 import (
 	"flag"
@@ -11,16 +11,15 @@ var (
 	port = flag.Int("port", 9999, "Port for serving gRPC requests")
 )
 
+func configure(c *aether.ServerConfig) error {
+	horoscopeService := horoscope.CreateService(horoscope.NewRepository())
+	pb.RegisterHoroscopeServiceServer(c.GetGRPCServer(), horoscopeService)
+	return nil
+}
+
 func main() {
 	flag.Parse()
 
-	// Create the service
-	horoscopeService := horoscope.CreateService(horoscope.NewRepository())
-
-	// Create the gRPC server and register your service.
-	grpcServer := aether.CreateServer()
-	pb.RegisterHoroscopeServiceServer(grpcServer, horoscopeService)
-
 	// Run the server.
-	aether.RunOrExit(grpcServer, *port, func(c *aether.ServerConfig) {})
+	aether.RunOrExit(configure, *port)
 }
