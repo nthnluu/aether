@@ -205,7 +205,7 @@ func Module(horoscopeRepository Repository) *module {
 ```
 
 ## Install and run your service
-One of the main advantages of Aether is a small `main.go` file. Typically, your `main.go` file would be fairly large, but Aether modules abstract away much of the configuration you typically would need to do yourself. Through Aether modules, configuration is coupled with the module that requires it. By installing modules on your server (via the `configure` function), Aether will configure your modules individually when your server is run.
+One of the main advantages of Aether is a small `main.go` file. Typically, your `main.go` file would be fairly large, but Aether modules abstract away much of the configuration you typically would need to do in `main.go`. Through Aether modules, configuration is coupled with the module that requires it. By installing modules on your server (via the `configure` function), Aether will configure your modules individually when your server is run.
 
 ```go=
 package main
@@ -232,4 +232,9 @@ func main() {
 	// Run the server.
 	aether.RunOrExit(configure, *port)
 }
+```
+
+To run your server, simply run the command
+```bash=
+go run .
 ```
